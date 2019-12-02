@@ -7,12 +7,13 @@ using UnityEngine.UI;
 
 public class sc : MonoBehaviour
 {
+    public static AudioClip startSound;
     private static bool created = false;
     Text txt;
     // Start is called before the first frame update
     void Start()
     {
-
+        startSound = Resources.Load<AudioClip>("jump_10");
         txt = GameObject.Find("Score").GetComponent<Text>();
         txt.text = PlayerPrefs.GetInt("score").ToString();
     }
@@ -21,8 +22,12 @@ public class sc : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) Exit();
-        else if (Input.GetKey(KeyCode.Space)) ChangeScene();
+        else if (Input.GetKey(KeyCode.Space))
+        {
 
+            ChangeScene();
+            GetComponent<AudioSource>().PlayOneShot(startSound);
+        }
         
         
     }

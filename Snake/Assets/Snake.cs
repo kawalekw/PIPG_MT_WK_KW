@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Snake : MonoBehaviour
 {
+    public static AudioClip eatSound, dieSound;
     public GameObject tailPrefab;
     public int score;
     List<Transform> tail = new List<Transform>();
@@ -17,6 +18,8 @@ public class Snake : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
+        eatSound = Resources.Load<AudioClip>("coin_04");
+        dieSound = Resources.Load<AudioClip>("game_over_09");
         score = 0;
         InvokeRepeating("Move", 0.2f, 0.2f);
 
@@ -59,12 +62,14 @@ public class Snake : MonoBehaviour
     {
         if (collision.name.StartsWith("Food"))
         {
-            eat = true;
 
+            eat = true;
+            GetComponent<AudioSource>().PlayOneShot(eatSound);
             Destroy(collision.gameObject);
         }
         else
         {
+            GetComponent<AudioSource>().PlayOneShot(dieSound);
             SceneManager.LoadScene("menu", LoadSceneMode.Single);
         }
     }
